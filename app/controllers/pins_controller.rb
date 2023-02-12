@@ -6,16 +6,6 @@ class PinsController < ApplicationController
     render json: pins, except: [:created_at, :updated_at]
   end
 
-  def create
-    existing_pin = Pin.find_by(lng: params[:lng], lat: params[:lat])
-    if existing_pin
-      render json: { error: "Pin already exists", status: "failure" }, status: :unprocessable_entity
-    else
-      pin = Pin.create(pin_params)
-      render json: pin, except: [:created_at, :updated_at]
-    end
-  end
-
   def update
     if @pin.update(pin_params)
       render json: { data: @pin, status: "success" }
